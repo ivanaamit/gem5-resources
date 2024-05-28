@@ -6,8 +6,22 @@ if [ ! -f ./packer ]; then
     rm packer_${PACKER_VERSION}_linux_arm64.zip;
 fi
 
-# Install the needed plugins
-./packer init arm-ubuntu.pkr.hcl
+# Check if the configuration file variable is provided
+if [ -z "$1" ]; then
+    echo "Usage: $0 <configuration_file>"
+    exit 1
+fi
 
-# Build the image
-./packer build arm-ubuntu.pkr.hcl
+# Store the configuration file name from the command line argument
+config_file="$1"
+
+# Check if the specified configuration file exists
+if [ -f "$config_file" ]; then
+    # Install the needed plugins
+    ./packer init "$config_file"
+    # Build the image
+    ./packer build "$config_file"
+else
+    echo "Error: Configuration file '$config_file' not found."
+    exit 1
+fi

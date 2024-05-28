@@ -19,7 +19,6 @@ fi
 if [[ $no_systemd == false ]]; then
     # gem5-bridge exit signifying that systemd will be booted
     printf "Starting systemd...\n"
-    gem5-bridge exit
     exec /lib/systemd/systemd
 else
     exec su - gem5
